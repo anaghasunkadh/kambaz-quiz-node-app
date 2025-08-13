@@ -1,7 +1,7 @@
 // ./Kambaz/Enrollments/routes.js
 import express from "express";
 import {
-  getAllEnrollments,
+  
   enrollUserInCourse,
   unenrollUserFromCourse,
 } from "./dao.js";
@@ -13,14 +13,23 @@ export default function EnrollmentsRoutes(app) {
     res.json(enrollments);
   });
 
-  app.post("/api/enrollments", (req, res) => {
-    const { user, course } = req.body;
-    if (!user || !course) {
-      return res.status(400).json({ error: "Missing user or course" });
-    }
-    const newEnrollment = enrollUserInCourse(user, course);
+app.post("/api/enrollments", async (req, res) => {
+  const { user, course } = req.body;
+  if (!user || !course) {
+    return res.status(400).json({ error: "Missing user or course" });
+  }
+  try {
+    const newEnrollment = await enrollUserInCourse(user, course);
     res.status(201).json(newEnrollment);
-  });
+  } catch (err) {
+    if (err.code === 11000) {
+      res.status(409).json({ error: "User already enrolled in this course" });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
 
   app.delete("/api/enrollments/:id", (req, res) => {
     const removed = unenrollUserFromCourse(req.params.id);

@@ -1,4 +1,5 @@
-import * as modulesDao from "./dao.js";
+//import * as modulesDao from "./dao.js";
+import * as modulesDao from "../Modules/dao.js";
 
 export default function ModuleRoutes(app) {
   app.put("/api/modules/:moduleId", async (req, res) => {

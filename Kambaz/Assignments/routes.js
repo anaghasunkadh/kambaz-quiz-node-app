@@ -2,31 +2,37 @@
 import * as dao from "./dao.js";
 
 export default function AssignmentRoutes(app) {
-  // Get assignments for a course
-  app.get("/api/courses/:courseId/assignments", (req, res) => {
-    const { courseId } = req.params;
-    const assignments = dao.findAssignmentsForCourse(courseId);
-    res.json(assignments);
+  app.get("/api/courses/:courseId/assignments", async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const assignments = await dao.findAssignmentsForCourse(courseId);
+      res.json(assignments);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   });
 
-  // Create a new assignment for a course
-  app.post("/api/courses/:courseId/assignments", (req, res) => {
-    const { courseId } = req.params;
-    const newAssignment = dao.createAssignment({ ...req.body, course: courseId });
-    res.json(newAssignment);
+  app.post("/api/courses/:courseId/assignments", async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const assignmentData = { ...req.body, course: courseId };
+      const newAssignment = await dao.createAssignment(assignmentData);
+      res.json(newAssignment);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
   });
+app.put("/api/assignments/:title", async (req, res) => {
+  const { title } = req.params;
+  const updatedAssignment = await dao.updateAssignment(title, req.body);
+  res.json(updatedAssignment);
+});
 
-  // Update an assignment
-  app.put("/api/assignments/:assignmentId", (req, res) => {
-    const { assignmentId } = req.params;
-    const updated = dao.updateAssignment(assignmentId, req.body);
-    res.json(updated);
-  });
+// Delete
+app.delete("/api/assignments/:title", async (req, res) => {
+  const { title } = req.params;
+  const result = await dao.deleteAssignment(title);
+  res.json(result);
+});
 
-  // Delete an assignment
-  app.delete("/api/assignments/:assignmentId", (req, res) => {
-    const { assignmentId } = req.params;
-    const result = dao.deleteAssignment(assignmentId);
-    res.send(result);
-  });
 }
