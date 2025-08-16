@@ -1,6 +1,5 @@
 import Assignment from "./model.js";
 
-// DO NOT cast to ObjectId if you're using string course IDs
 export async function findAssignmentsForCourse(courseId) {
   return await Assignment.find({ course: courseId });
 }
