@@ -8,6 +8,7 @@ const questionsSchema = new mongoose.Schema(
     type: { type: String, default: "Multiple Choice" },
     description: { type: String }, // Added to match existing data
     points: { type: Number, default: 1 },
+    group: { type: String, default: "Ungrouped" }, // Added group field with default
     answer: [String], // Added to match existing data structure
     options: [String], // Added to match existing data structure
     answers: [
