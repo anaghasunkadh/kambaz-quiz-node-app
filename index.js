@@ -47,13 +47,13 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      "http://localhost:5173",
+      "http://localhost:5174",
       "https://projectkambazquizz.netlify.app"
     ]
   })
 );
 
-console.log("CORS origin:", process.env.NETLIFY_URL || "http://localhost:5173");
+console.log("CORS origin:", process.env.NETLIFY_URL || "http://localhost:5174");
 console.log("Session secret:", process.env.SESSION_SECRET || "kambaz");
 
 
