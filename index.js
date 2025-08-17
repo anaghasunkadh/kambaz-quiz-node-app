@@ -48,7 +48,7 @@ app.use(
     credentials: true,
     origin: [
       "http://localhost:5174",
-      "https://projectkambazquizz.netlify.app"
+      "https://stellular-kangaroo-985503.netlify.app"
     ]
   })
 );
