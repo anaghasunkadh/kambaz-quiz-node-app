@@ -52,6 +52,14 @@ app.use(
     ]
   })
 );
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
  
 console.log("CORS origin:", process.env.NETLIFY_URL || "http://localhost:5174");
 console.log("Session secret:", process.env.SESSION_SECRET || "kambaz");
